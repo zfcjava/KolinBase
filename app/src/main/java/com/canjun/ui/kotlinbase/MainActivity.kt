@@ -2,8 +2,13 @@ package com.canjun.ui.kotlinbase
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.annotation.UiThread
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import org.jetbrains.anko.custom.async
+import org.jetbrains.anko.find
+import org.jetbrains.anko.longToast
+import org.jetbrains.anko.uiThread
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,14 +21,25 @@ class MainActivity : AppCompatActivity() {
             "Fri 6/27 - XXX - 31/0"
     )
 
+    private val url = "https://openweathermap.org/find?q=%E5%8C%97%E4%BA%AC"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initView()
+        initData()
     }
 
-    fun initView(): Unit {
-        val forecastList = findViewById(R.id.forecast_list) as RecyclerView
+    private fun initData() {
+        async {
+            Request(url).run()
+            uiThread { longToast("request Performed") }
+        }
+    }
+
+    fun initView() {
+
+        val forecastList:RecyclerView = find(R.id.forecast_list)
         //类中的属性 可以直接通过. 操作访问
         forecastList.layoutManager = LinearLayoutManager(this)
         forecastList.adapter = ForecastListAdapter(datas)
