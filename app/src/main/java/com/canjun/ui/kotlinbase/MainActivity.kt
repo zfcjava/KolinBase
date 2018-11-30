@@ -2,13 +2,14 @@ package com.canjun.ui.kotlinbase
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.annotation.UiThread
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import org.jetbrains.anko.custom.async
 import org.jetbrains.anko.find
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.uiThread
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,6 +22,12 @@ class MainActivity : AppCompatActivity() {
             "Fri 6/27 - XXX - 31/0"
     )
 
+    private val map = mapOf(
+        "zfc" to "cangzhou",
+        "hy" to "baoding",
+        "xcc" to "baocnag"
+    )
+
     private val url = "https://openweathermap.org/find?q=%E5%8C%97%E4%BA%AC"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +35,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         initView()
         initData()
+        copyDataDomain()
+        useMap()
     }
+
 
     private fun initData() {
         async {
@@ -43,5 +53,27 @@ class MainActivity : AppCompatActivity() {
         //类中的属性 可以直接通过. 操作访问
         forecastList.layoutManager = LinearLayoutManager(this)
         forecastList.adapter = ForecastListAdapter(datas)
+    }
+
+
+
+    private fun copyDataDomain() {
+        val orignalData = Forecast(Date(), 20F, "beijing")
+        Log.e(javaClass.simpleName, "original data " + orignalData.toString())
+        val changedData = orignalData.copy(temperature = 10F)
+        Log.e(javaClass.simpleName, "changed data " + changedData.toString())
+
+        val (date, temperature, details) = changedData.copy(date = Date()
+        ,temperature = -10F,details = "cangzhou")
+
+        Log.e(javaClass.simpleName, "date " + date.toString())
+        Log.e(javaClass.simpleName, "temperature " + temperature.toString())
+        Log.e(javaClass.simpleName, "details " + details.toString())
+    }
+
+    private fun useMap() {
+        for ((key, value) in map) {
+            Log.e("map", "key = $key, value = $value")
+        }
     }
 }
