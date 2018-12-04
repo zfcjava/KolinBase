@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import com.canjun.ui.kotlinbase.domain.RequestForecastCommand
 import org.jetbrains.anko.custom.async
 import org.jetbrains.anko.find
 import org.jetbrains.anko.longToast
@@ -30,29 +31,35 @@ class MainActivity : AppCompatActivity() {
 
     private val url = "https://openweathermap.org/find?q=%E5%8C%97%E4%BA%AC"
 
+    private lateinit var forecastList:RecyclerView
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initView()
         initData()
-        copyDataDomain()
-        useMap()
+//        copyDataDomain()
+//        useMap()
     }
 
 
     private fun initData() {
         async {
-            Request(url).run()
-            uiThread { longToast("request Performed") }
+            val result = RequestForecastCommand("94043").excute()
+            uiThread {
+                longToast("request Performed")
+                forecastList.adapter = ForecastListAdapter(result)
+            }
         }
     }
 
     fun initView() {
 
-        val forecastList:RecyclerView = find(R.id.forecast_list)
+        forecastList = find(R.id.forecast_list)
         //类中的属性 可以直接通过. 操作访问
         forecastList.layoutManager = LinearLayoutManager(this)
-        forecastList.adapter = ForecastListAdapter(datas)
+
     }
 
 

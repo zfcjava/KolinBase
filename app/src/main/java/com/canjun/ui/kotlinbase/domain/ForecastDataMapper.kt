@@ -11,7 +11,7 @@ import com.canjun.ui.kotlinbase.domain.Forecast as ModelForecast
  * created by zfc  on 2018/12/4.
  *
  */
-public class ForecastDataMapper{
+class ForecastDataMapper{
 
     fun convertFromDataModel(forecast: ForecastResult): ForecastList {
         return ForecastList(forecast.city.name,forecast.city.country,convertForecastListToDomain(forecast.list))

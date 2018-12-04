@@ -22,3 +22,5 @@ Anko 是JetBrains开发的一个强大的库。其目的**在于替代xml，使�
 映射对象到变量(根据对象和属性的对应关系，且对应关系是有顺序的)
 转换json到数据类(使用的Gson)
 构建domain层
+操作符重载
+使Forecast List可点击

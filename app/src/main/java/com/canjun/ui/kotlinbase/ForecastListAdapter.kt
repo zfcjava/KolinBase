@@ -4,23 +4,25 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.canjun.ui.kotlinbase.domain.ForecastList
 
 /**
  *
  * created by zfc  on 2018/11/29.
  *
  */
-class ForecastListAdapter(val items : List<String>): RecyclerView.Adapter<ForecastListAdapter.ViewHodler>() {
+class ForecastListAdapter(val weekForecast : ForecastList): RecyclerView.Adapter<ForecastListAdapter.ViewHodler>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int) = ViewHodler(TextView(parent.context))
 
 
-    override fun getItemCount() = items.size
+    override fun getItemCount() = weekForecast.size()
 
 
     override fun onBindViewHolder(hodler: ViewHodler, position: Int) {
-        //操作符重载
-        hodler.textView.text = items[position]
+        with(weekForecast[position]){
+            hodler.textView.text = "$date---$description---$high/$low"
+        }
     }
 
 
